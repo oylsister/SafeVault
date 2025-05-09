@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeVault.Tests", "SafeVault.Tests\SafeVault.Tests.csproj", "{4119F527-BDE7-4806-A527-A7A431651D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeVault.Core", "SafeVault.Core\SafeVault.Core.csproj", "{9D41FEDB-FF5B-4006-A786-7368D63F49A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4119F527-BDE7-4806-A527-A7A431651D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4119F527-BDE7-4806-A527-A7A431651D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4119F527-BDE7-4806-A527-A7A431651D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4119F527-BDE7-4806-A527-A7A431651D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D41FEDB-FF5B-4006-A786-7368D63F49A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D41FEDB-FF5B-4006-A786-7368D63F49A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D41FEDB-FF5B-4006-A786-7368D63F49A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D41FEDB-FF5B-4006-A786-7368D63F49A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

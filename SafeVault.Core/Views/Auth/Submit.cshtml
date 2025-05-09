@@ -1,0 +1,33 @@
+﻿@model UserInputModel
+
+<form asp-action="Submit" method="post">
+    @Html.AntiForgeryToken()
+    <div>
+		<h1>Add Submit Your Information</h1>
+    </div>
+    <div>
+        <label for="username">Username:</label>
+        <input asp-for="Username" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+
+        <label for="email">Email:</label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <label for="password">Password:</label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+
+        <label>Role:</label>
+        <input asp-for="Role" />
+        <span asp-validation-for="Role" class="text-danger"></span>
+
+        <button type="submit">Submit</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+}

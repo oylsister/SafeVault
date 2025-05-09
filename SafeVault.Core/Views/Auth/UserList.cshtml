@@ -1,0 +1,38 @@
+﻿@model UserListViewModel
+
+<h1>All Users</h1>  
+
+@if (Model == null)
+{
+    <p>User is not found because model is fucking dumb.</p>
+}
+
+else
+{
+    if (Model.Users == null || !Model.Users.Any())
+    {
+        <p>User is not found.</p>
+    }
+    else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@user.Password</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+}

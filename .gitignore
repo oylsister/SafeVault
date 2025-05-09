@@ -1,0 +1,11 @@
+/.vs
+/obj
+/SafeVault.Core/bin
+/SafeVault.Core/obj
+/SafeVault.Tests/bin
+/SafeVault.Tests/obj
+/SafeVault/obj
+/SafeVault.Core/Migrations
+*.db
+*.db-shm
+*.db-wal
