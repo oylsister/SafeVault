@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SafeVault.Core.Helpers;
 using SafeVault.Core.Models;
 
 namespace SafeVault.Core.Controllers
@@ -41,9 +42,34 @@ namespace SafeVault.Core.Controllers
                 Role = model.Role
             };
 
+            string allowedSpecialCharacters = "!@#$%^&*?";
+
+            if (!ValidationHelpers.IsValidInput(model.Username, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Username))
+            {
+                ModelState.AddModelError("Username", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
+            if (!ValidationHelpers.IsValidInput(model.Password, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Password))
+            {
+                ModelState.AddModelError("Password", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
+            if (!ValidationHelpers.IsValidInput(model.Email, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Email))
+            {
+                ModelState.AddModelError("Email", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
+            if (string.IsNullOrEmpty(model.Role) || !ValidationHelpers.IsValidInput(model.Role))
+            {
+                ModelState.AddModelError("Role", "Role is required.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
             // Check if the username already exists
-            var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == model.Username);
+            var existingUser = await _context.Users.FromSqlInterpolated($"SELECT * FROM Users WHERE Username = {model.Username}").FirstOrDefaultAsync();
 
             if (existingUser != null)
             {
@@ -51,7 +77,14 @@ namespace SafeVault.Core.Controllers
                 return View("Submit", model); // Returns the form with validation errors
             }
 
-            await _context.Users.AddAsync(user);
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+               INSERT INTO Users (Username, Email, Password, Role) 
+               VALUES ({user.Username}, {user.Email}, {user.Password}, {user.Role});
+            ");
+
+            // Alternatively, you can use the DbSet directly
+            // await _context.Users.AddAsync(user);
+
             await _context.SaveChangesAsync();
 
             // Process valid data (e.g., save to database)
@@ -78,9 +111,33 @@ namespace SafeVault.Core.Controllers
                 Password = BCrypt.Net.BCrypt.HashPassword(model.Password)
             };
 
+            string allowedSpecialCharacters = "!@#$%^&*?";
+
+            if (!ValidationHelpers.IsValidInput(model.Username, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Username))
+            {
+                ModelState.AddModelError("Username", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
+            if (!ValidationHelpers.IsValidInput(model.Password, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Password))
+            {
+                ModelState.AddModelError("Password", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
+            if (!ValidationHelpers.IsValidInput(model.Email, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Email))
+            {
+                ModelState.AddModelError("Email", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
             // Check if the username already exists
+            /*
             var existingUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Username == model.Username);
+            */
+
+            var existingUser = await _context.Users.FromSqlInterpolated($"SELECT * FROM Users WHERE Username = {model.Username}").FirstOrDefaultAsync();
 
             if (existingUser != null)
             {
@@ -88,7 +145,13 @@ namespace SafeVault.Core.Controllers
                 return View("Register", model); // Returns the form with validation errors
             }
 
-            await _context.Users.AddAsync(user);
+            await _context.Database.ExecuteSqlInterpolatedAsync($@"
+               INSERT INTO Users (Username, Email, Password, Role) 
+               VALUES ({user.Username}, {user.Email}, {user.Password}, {user.Role});");
+
+            // Alternatively, you can use the DbSet directly
+            // await _context.Users.AddAsync(user);
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Success"); // Redirects to the Success.cshtml view
@@ -113,8 +176,25 @@ namespace SafeVault.Core.Controllers
                 return View("Login", model); // Returns the form with validation errors
             }
 
+            string allowedSpecialCharacters = "!@#$%^&*?";
+
+            if (!ValidationHelpers.IsValidInput(model.Username, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Username))
+            {
+                ModelState.AddModelError("Username", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
+            if (!ValidationHelpers.IsValidInput(model.Password, allowedSpecialCharacters) || !ValidationHelpers.IsValidXSSInput(model.Password))
+            {
+                ModelState.AddModelError("Password", "only letters, digits, and @, #, $ is accepted.");
+                return View("Register", model); // Returns the form with validation errors
+            }
+
+            /*
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == model.Username);
+                .FirstOrDefaultAsync(u => u.Username == model.Username);*/
+
+            var user = await _context.Users.FromSqlInterpolated($"SELECT * FROM Users WHERE Username = {model.Username}").FirstOrDefaultAsync();
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
             {
